@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HomePredict | Housing Price Predictor</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            <span class="logo-mark">H</span>
+            <span>HomePredict</span>
+        </div>
+
+        <div class="nav-status">
+            <span class="status-dot"></span>
+            ML Model Online
+        </div>
+    </header>
+
+
+    <main class="container">
+
+        <section class="hero">
+            <div class="hero-badge">
+                MACHINE LEARNING · REAL ESTATE
+            </div>
+
+            <h1>
+                Predict Your
+                <span>Home Value.</span>
+            </h1>
+
+            <p>
+                Enter the property details below and our machine-learning
+                model will estimate the property's median house value.
+            </p>
+        </section>
+
+
+        <section class="prediction-card">
+
+            <div class="card-header">
+                <div>
+                    <h2>Property Details</h2>
+                    <p>Enter the information about the property.</p>
+                </div>
+
+                <div class="model-badge">
+                    Random Forest
+                </div>
+            </div>
+
+
+            <form id="predictionForm">
+
+                <div class="section-title">
+                    <span>01</span>
+                    Location
+                </div>
+
+                <div class="form-grid">
+
+                    <div class="input-group">
+                        <label for="longitude">Longitude</label>
+                        <input
+                            type="number"
+                            id="longitude"
+                            name="longitude"
+                            step="any"
+                            placeholder="-122.23"
+                            required
+                        >
+                    </div>
+
+                    <div class="input-group">
+                        <label for="latitude">Latitude</label>
+                        <input
+                            type="number"
+                            id="latitude"
+                            name="latitude"
+                            step="any"
+                            placeholder="37.88"
+                            required
+                        >
+                    </div>
+
+                    <div class="input-group full-width">
+                        <label for="ocean_proximity">Ocean Proximity</label>
+
+                        <select id="ocean_proximity" name="ocean_proximity" required>
+                            <option value="" disabled selected>
+                                Select location type
+                            </option>
+                            <option value="<1H OCEAN">&lt;1H OCEAN</option>
+                            <option value="INLAND">INLAND</option>
+                            <option value="ISLAND">ISLAND</option>
+                            <option value="NEAR BAY">NEAR BAY</option>
+                            <option value="NEAR OCEAN">NEAR OCEAN</option>
+                        </select>
+                    </div>
+
+                </div>
+
+
+                <div class="section-title">
+                    <span>02</span>
+                    Property Information
+                </div>
+
+                <div class="form-grid">
+
+                    <div class="input-group">
+                        <label for="housing_median_age">
+                            Housing Median Age
+                        </label>
+
+                        <input
+                            type="number"
+                            id="housing_median_age"
+                            name="housing_median_age"
+                            step="any"
+                            placeholder="25"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="input-group">
+                        <label for="total_rooms">
+                            Total Rooms
+                        </label>
+
+                        <input
+                            type="number"
+                            id="total_rooms"
+                            name="total_rooms"
+                            step="any"
+                            placeholder="1500"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="input-group">
+                        <label for="total_bedrooms">
+                            Total Bedrooms
+                        </label>
+
+                        <input
+                            type="number"
+                            id="total_bedrooms"
+                            name="total_bedrooms"
+                            step="any"
+                            placeholder="300"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="input-group">
+                        <label for="households">
+                            Households
+                        </label>
+
+                        <input
+                            type="number"
+                            id="households"
+                            name="households"
+                            step="any"
+                            placeholder="250"
+                            required
+                        >
+                    </div>
+
+                </div>
+
+
+                <div class="section-title">
+                    <span>03</span>
+                    Population & Income
+                </div>
+
+                <div class="form-grid">
+
+                    <div class="input-group">
+                        <label for="population">
+                            Population
+                        </label>
+
+                        <input
+                            type="number"
+                            id="population"
+                            name="population"
+                            step="any"
+                            placeholder="800"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="input-group">
+                        <label for="median_income">
+                            Median Income
+                        </label>
+
+                        <input
+                            type="number"
+                            id="median_income"
+                            name="median_income"
+                            step="any"
+                            placeholder="4.5"
+                            required
+                        >
+                    </div>
+
+                </div>
+
+
+                <button type="submit" class="predict-button" id="predictButton">
+
+                    <span id="buttonText">
+                        Predict Home Value
+                    </span>
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </button>
+
+            </form>
+
+
+            <div class="result" id="result">
+
+                <div class="result-label">
+                    ESTIMATED MEDIAN HOUSE VALUE
+                </div>
+
+                <div class="result-price" id="prediction">
+                    $0
+                </div>
+
+                <p>
+                    This estimate is generated by your trained
+                    Random Forest machine-learning model.
+                </p>
+
+            </div>
+
+
+            <div class="error-message" id="errorMessage"></div>
+
+        </section>
+
+
+        <section class="info-grid">
+
+            <div class="info-card">
+                <div class="info-icon">01</div>
+                <h3>Enter Data</h3>
+                <p>
+                    Provide the property's location, rooms,
+                    population and income information.
+                </p>
+            </div>
+
+
+            <div class="info-card">
+                <div class="info-icon">02</div>
+                <h3>ML Processing</h3>
+                <p>
+                    Your data is processed through the same
+                    preprocessing pipeline used during training.
+                </p>
+            </div>
+
+
+            <div class="info-card">
+                <div class="info-icon">03</div>
+                <h3>Get Prediction</h3>
+                <p>
+                    The Random Forest model returns an estimated
+                    median house value.
+                </p>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        <p>
+            HomePredict · Machine Learning Housing Price Prediction
+        </p>
+    </footer>
+
+
+    <script>
+
+        const form = document.getElementById("predictionForm");
+        const result = document.getElementById("result");
+        const prediction = document.getElementById("prediction");
+        const errorMessage = document.getElementById("errorMessage");
+
+        const button = document.getElementById("predictButton");
+        const buttonText = document.getElementById("buttonText");
+
+
+        form.addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+            result.classList.remove("show");
+            errorMessage.classList.remove("show");
+
+            button.disabled = true;
+            buttonText.textContent = "Predicting...";
+
+
+            const data = {
+
+                longitude:
+                    parseFloat(document.getElementById("longitude").value),
+
+                latitude:
+                    parseFloat(document.getElementById("latitude").value),
+
+                housing_median_age:
+                    parseFloat(document.getElementById("housing_median_age").value),
+
+                total_rooms:
+                    parseFloat(document.getElementById("total_rooms").value),
+
+                total_bedrooms:
+                    parseFloat(document.getElementById("total_bedrooms").value),
+
+                population:
+                    parseFloat(document.getElementById("population").value),
+
+                households:
+                    parseFloat(document.getElementById("households").value),
+
+                median_income:
+                    parseFloat(document.getElementById("median_income").value),
+
+                ocean_proximity:
+                    document.getElementById("ocean_proximity").value
+            };
+
+
+            try {
+
+                const response = await fetch("/predict", {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify(data)
+
+                });
+
+
+                const responseData = await response.json();
+
+
+                if (!response.ok) {
+                    throw new Error(
+                        responseData.error || "Prediction failed."
+                    );
+                }
+
+
+                const value = Number(responseData.prediction);
+
+
+                prediction.textContent =
+                    "$" + value.toLocaleString("en-US", {
+                        maximumFractionDigits: 0
+                    });
+
+
+                result.classList.add("show");
+
+                result.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+            }
+
+
+            catch (error) {
+
+                errorMessage.textContent =
+                    "Error: " + error.message;
+
+                errorMessage.classList.add("show");
+
+            }
+
+
+            finally {
+
+                button.disabled = false;
+                buttonText.textContent = "Predict Home Value";
+
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
