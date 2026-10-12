@@ -1,5 +1,4 @@
-# California House Price Prediction model
-A website consisting of Machine Learning model which predicts the prices of houses in california
+
 # 🏠 California House Price Prediction
 
 An end-to-end **Machine Learning web application** that predicts California house prices based on geographical, demographic, and housing-related features.
